@@ -1,0 +1,32 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres:9.6"
+    container_name: "postgres"
+    environment:
+      - POSTGRES_USER=doge
+      - POSTGRES_PASSWORD=xxxxxxx
+      - POSTGRES_DB=db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - single
+  web:
+     image: "eidmantas/eid_cj_op:latest"
+     container_name: "cujo_op_main"
+     environment:
+      - DATABASE_URL=postgres://doge:xxxxxxxxxx@postgres:5432/db
+     networks:
+      - single
+  r_proxy:
+    image: "local_nginx"
+    container_name: "r_proxy"
+    restart: always
+    ports:
+    - "80:80"
+    networks:
+    - single
+    
+networks:
+  single:
+
